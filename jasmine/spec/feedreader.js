@@ -4,6 +4,8 @@
  * all of the tests that will be run against your application.
  */
 
+
+
 /* We're placing all of our tests within the $() function,
  * since some of these tests may require DOM elements. We want
  * to ensure they don't run until the DOM is ready.
@@ -90,19 +92,52 @@ $(function() {
          * a single .entry element within the .feed container.
          */
         it('at least one feed is loaded', function() {
+            const feed = $(".feed").get();
             const numEntries = $(".feed").children().length;
             expect(numEntries).not.toBe(0);
         })
     });
 
     describe('New Feed Selection', function () {
+        let feed1, feed2;
+        beforeEach(function(done) {
+            loadFeed(0, function () {
+                done();
+            });
+            feed1 = $(".feed");
 
-        /* TODO: Write a test that ensures when a new feed is loaded
+            sleep(200);
+
+            loadFeed(1, function () {
+                done();
+            });
+            feed2 = $(".feed");
+            //console.log(feed1 == feed2);
+            //console.log(feed1.is(feed2));
+        });
+
+        /**
+         * Get the address of the first article of the given feed.
+         * @param feed
+         * @returns
+         */
+        function getFirstArticleLink(feed) {
+            return feed.children().first().attr('href');
+        }
+
+        /* Ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
          */
         it('feeds changed when feed selection is changed', function() {
-            fail('test not implemented');
+            expect(getFirstArticleLink(feed1)).not.toBe(getFirstArticleLink(feed2));
         })
     });
 }());
+
+/*
+ * Pauses execution a given number of milliseconds.
+ * Taken from https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep
+ */
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
