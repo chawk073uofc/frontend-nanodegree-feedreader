@@ -71,11 +71,13 @@ $(function() {
           * clicked and does it hide when clicked again.
           */
          it('appears when menu icon clicked and hides when clicked again', function () {
-             $('.menu-icon-link').click();
+             const menuIcon = $('.menu-icon-link');
+
+             menuIcon.click();
              let bodyClass = $('body').attr('class');
              expect(bodyClass).not.toBe('menu-hidden');
 
-             $('.menu-icon-link').click();
+             menuIcon.click();
              bodyClass = $('body').attr('class');
              expect(bodyClass).toBe('menu-hidden');
          })
@@ -92,7 +94,6 @@ $(function() {
          * a single .entry element within the .feed container.
          */
         it('at least one feed is loaded', function() {
-            const feed = $(".feed").get();
             const numEntries = $(".feed").children().length;
             expect(numEntries).not.toBe(0);
         })
@@ -106,9 +107,9 @@ $(function() {
 
         // app.js contains an array of RSS feeds. We will load the feed at index 0 and then the feed at index 1 and test the effect of this action on the feed contained in the DOM.
         beforeEach(function(done) {
-            loadFeed(0, function() {
+            loadFeed(1, function() {
                 oldFeed = $('.feed').html();
-                loadFeed(1, done);
+                loadFeed(0, done);
             });
         });
 
@@ -119,13 +120,4 @@ $(function() {
             expect($('.feed').html()).not.toEqual(oldFeed);
         });
     });
-
 }());
-
-/*
- * Pauses execution a given number of milliseconds.
- * Taken from https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep
- */
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
