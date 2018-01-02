@@ -111,6 +111,7 @@ $(function() {
             loadFeed(1, function () {
                 done();
             });
+
             feed2 = $(".feed");
             //console.log(feed1 == feed2);
             //console.log(feed1.is(feed2));
