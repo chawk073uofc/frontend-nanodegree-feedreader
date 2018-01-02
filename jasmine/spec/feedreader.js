@@ -98,41 +98,28 @@ $(function() {
         })
     });
 
-    describe('New Feed Selection', function () {
-        let feed1, feed2;
+    /**
+     * When a new feed is loaded by the loadFeed function that the content actually changes
+     */
+    describe('New Feed Selection', function(){
+        let oldFeed;
+
+        // app.js contains an array of RSS feeds. We will load the feed at index 0 and then the feed at index 1 and test the effect of this action on the feed contained in the DOM.
         beforeEach(function(done) {
-            loadFeed(0, function () {
-                done();
+            loadFeed(0, function() {
+                oldFeed = $('.feed').html();
+                loadFeed(1, done);
             });
-            feed1 = $(".feed");
-
-            sleep(200);
-
-            loadFeed(1, function () {
-                done();
-            });
-
-            feed2 = $(".feed");
-            //console.log(feed1 == feed2);
-            //console.log(feed1.is(feed2));
         });
 
-        /**
-         * Get the address of the first article of the given feed.
-         * @param feed
-         * @returns
+        /* Test if when a new feed is loaded
+         * by the loadFeed function the HTML content actually changes.
          */
-        function getFirstArticleLink(feed) {
-            return feed.children().first().attr('href');
-        }
-
-        /* Ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         */
-        it('feeds changed when feed selection is changed', function() {
-            expect(getFirstArticleLink(feed1)).not.toBe(getFirstArticleLink(feed2));
-        })
+        it('has been loaded', function(){
+            expect($('.feed').html()).not.toEqual(oldFeed);
+        });
     });
+
 }());
 
 /*
