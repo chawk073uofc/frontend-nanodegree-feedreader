@@ -99,8 +99,10 @@ $(function() {
         })
     });
 
+
     /**
      * When a new feed is loaded by the loadFeed function that the content actually changes
+     * Developed with help from Udacity program mentor.
      */
     describe('New Feed Selection', function(){
         let oldFeed;
