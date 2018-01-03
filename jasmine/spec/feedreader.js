@@ -34,9 +34,18 @@ $(function() {
          * and that the URL is not empty.
          */
         it('have a non-empty URL', function () {
+            //RegEx taken from https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url
+            const VALID_URL_REGEX = new RegExp(
+            '^(https?:\\/\\/)?'+ // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+            '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
             for(let feed of allFeeds) {
                 expect(feed.url).toBeDefined();
                 expect(feed.url.length).not.toBe(0);
+                expect(feed.url).toMatch(VALID_URL_REGEX);
             }
         });
 
@@ -45,6 +54,7 @@ $(function() {
          * and that the name is not empty.
          */
         it('have a non-empty name', function () {
+            //doc
             for(let name of allFeeds) {
                 expect(name.name).toBeDefined();
                 expect(name.name.length).not.toBe(0);
@@ -55,14 +65,14 @@ $(function() {
 
     describe('The Menu', function () {
 
-        /* TODO: Write a test that ensures the menu element is
+        /* Ensures the menu element is
          * hidden by default. You'll have to analyze the HTML and
          * the CSS to determine how we're performing the
          * hiding/showing of the menu element.
          */
         it('is hidden by default', function () {
-            const bodyClass = $('body').attr('class');
-            expect(bodyClass).toBe('menu-hidden');
+            const isHidden = $('body').hasClass('menu-hidden');
+            expect(isHidden).toBe(true);
         });
 
          /* The menu changes
@@ -98,7 +108,6 @@ $(function() {
             expect(numEntries).not.toBe(0);
         })
     });
-
 
     /**
      * When a new feed is loaded by the loadFeed function that the content actually changes
