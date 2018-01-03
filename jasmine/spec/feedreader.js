@@ -84,12 +84,11 @@ $(function() {
              const menuIcon = $('.menu-icon-link');
 
              menuIcon.click();
-             let bodyClass = $('body').attr('class');
-             expect(bodyClass).not.toBe('menu-hidden');
+             expect( $('body').hasClass('menu-hidden') ).toBe(false);
 
              menuIcon.click();
-             bodyClass = $('body').attr('class');
-             expect(bodyClass).toBe('menu-hidden');
+             expect( $('body').hasClass('menu-hidden') ).toBe(true);
+
          })
     });
 
@@ -104,7 +103,7 @@ $(function() {
          * a single .entry element within the .feed container.
          */
         it('at least one feed is loaded', function() {
-            const numEntries = $(".feed").children().length;
+            const numEntries = $(".feed .entry").length;
             expect(numEntries).not.toBe(0);
         })
     });
